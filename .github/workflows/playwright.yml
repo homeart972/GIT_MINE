@@ -26,4 +26,4 @@ jobs:
           playwright install
 
       - name: Run script
-        run: python scripts/mon_script.py
+        run: python bouclewix.py
