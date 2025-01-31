@@ -24,6 +24,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           playwright install
+      - name: Install Playwright dependencies
+        run: playwright install --with-deps
+
 
       - name: Run script
         run: python bouclewix.py
