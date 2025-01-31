@@ -1,0 +1,3 @@
+pandas
+playwright
+openpyxl  # Si tu travailles avec Excel
