@@ -105,7 +105,8 @@ def process_individual(page, titre):
 
 def run(playwright: Playwright) -> None:
     # Lancer le navigateur
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=True, args=["--no-sandbox"])
+    #browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
     page.goto("http://onedayclip.free.fr/")
