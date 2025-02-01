@@ -36,11 +36,17 @@ jobs:
           echo "https://${{ secrets.GITHUB_TOKEN }}@github.com" > ~/.git-credentials
 
 
-      - name: Commit screenshot
+      - name: Commit and push screenshot
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/homeart972/GIT_MINE.git
           git add screenshot.png
-          git commit -m "Add screenshot from Playwright" || echo "⚠️ Pas de modification à pousser"
+          git commit -m "Add screenshot from Playwright" || echo "⚠️ Rien à committer"
           git push origin main
+
 
 
       - name: List files (debug)
