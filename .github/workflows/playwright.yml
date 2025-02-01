@@ -31,3 +31,15 @@ jobs:
 
       - name: Run script with Xvfb
         run: xvfb-run --auto-servernum -- python bouclewix.py
+
+      # 🔹 Ajouter la sauvegarde du screenshot
+      - name: Commit and push screenshot
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/homeart972/GIT_MINE.git
+          git add screenshot_playwright.png
+          git commit -m "Add screenshot_playwright from Playwright" || echo "⚠️ Rien à committer"
+          git push origin main
