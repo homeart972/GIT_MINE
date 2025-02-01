@@ -28,13 +28,19 @@ jobs:
       - name: Run Playwright screenshot test
         run: xvfb-run --auto-servernum -- python test_screenshot.py
 
-      - name: Commit screenshot
+      - name: Configure Git permissions
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+          git config --global credential.helper store
+          echo "https://${{ secrets.GITHUB_TOKEN }}@github.com" > ~/.git-credentials
+
+
+      - name: Commit screenshot
+        run: |
           git add screenshot.png
-          git commit -m "Add screenshot from Playwright"
-          git push origin main || echo "⚠️ Pas de modification à pousser"
+          git commit -m "Add screenshot from Playwright" || echo "⚠️ Pas de modification à pousser"
+          git push origin main
 
 
       - name: List files (debug)
