@@ -141,6 +141,8 @@ def run(playwright: Playwright) -> None:
 
     # Fermer le contexte et le navigateur
     print("Traitement terminé.")
+    # Prendre une capture d'écran
+    page.screenshot(path="screenshot_playwright.png")
     context.close()
     browser.close()
 
