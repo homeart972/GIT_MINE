@@ -34,4 +34,8 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git add screenshot.png
           git commit -m "Add screenshot from Playwright"
-          git push
+          git push origin main || echo "⚠️ Pas de modification à pousser"
+
+
+      - name: List files (debug)
+        run: ls -alh
