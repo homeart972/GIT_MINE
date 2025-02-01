@@ -112,7 +112,7 @@ def run(playwright: Playwright) -> None:
     page.goto("http://onedayclip.free.fr/")
 
     # Charger le fichier Excel
-    df = pd.read_excel(r"E:\PYTHON_DOC\wix_publish.xlsx")
+    df = pd.read_excel(r"posts_to_publish.xlsx")
 
     # Obtenir la date actuelle
     date_actuelle = datetime.now().date()
