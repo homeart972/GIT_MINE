@@ -9,8 +9,13 @@ jobs:
   run-script:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: 📥 Cloner le repo
         uses: actions/checkout@v3
+
+      - name: 🛠 Installer les dépendances système
+        run: |
+          sudo apt update
+          sudo apt install -y xvfb
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -19,8 +24,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pandas playwright
+          pip install pandas openpyxl playwright msmtp
           playwright install
+          playwright install-deps
 
       - name: Run script
         run: |
