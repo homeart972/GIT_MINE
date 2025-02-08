@@ -1,0 +1,27 @@
+name: Run Playwright Script Daily
+
+on:
+  schedule:
+    - cron: "0 19 * * *"  # Tous les jours à 19h UTC
+  workflow_dispatch:  # Permet aussi de l'exécuter manuellement
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          pip install pandas playwright
+          playwright install
+
+      - name: Run script
+        run: |
+          xvfb-run --server-args="-screen 0 1920x1080x24" python bouclewix.py
