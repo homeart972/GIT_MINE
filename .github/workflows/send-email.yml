@@ -1,0 +1,37 @@
+
+name: Send Email via msmtp
+
+on:
+  schedule:
+    - cron: "0 20 * * *"  # Tous les jours à 20h UTC
+  workflow_dispatch:  # Permet un lancement manuel
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Ajouter un fichier log
+        run: |
+          echo "Rapport du script du $(date)" > report.log
+          echo "Tout s'est bien passé !" >> report.log
+
+      - name: Installer msmtp
+        run: sudo apt-get update && sudo apt-get install -y msmtp msmtp-mta
+
+      - name: Configurer msmtp
+        run: |
+          echo "account default" > ~/.msmtprc
+          echo "host smtp.gmail.com" >> ~/.msmtprc
+          echo "port 587" >> ~/.msmtprc
+          echo "auth on" >> ~/.msmtprc
+          echo "user ${{ secrets.EMAIL_USER }}" >> ~/.msmtprc
+          echo "password ${{ secrets.EMAIL_PASS }}" >> ~/.msmtprc
+          echo "tls on" >> ~/.msmtprc
+          chmod 600 ~/.msmtprc
+
+      - name: Envoyer l'email
+        run: |
+          echo -e "Subject: Rapport Quotidien\n\nLe script s'est exécuté avec succès." | msmtp --file=report.log ${{ secrets.EMAIL_TO }}
+
