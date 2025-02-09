@@ -1,8 +1,10 @@
 name: Start GitHub Codespaces
 
 on:
+  workflow_dispatch:  # Permet de lancer manuellement
   schedule:
     - cron: '45 18 * * *'  # Déclenche à 18h45 UTC
+    - cron: '45 19 * * *'  # Redémarrage à 19h45 si besoin
 
 jobs:
   start-codespace:
