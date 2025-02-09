@@ -14,4 +14,4 @@ jobs:
             gh codespace start --codespace "$codespace"
           done
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}  # Utilisation du GH_PAT existant
+          GH_TOKEN: ${{ secrets.GH_PAT }}  # Utilisation du GH_PAT existant OK
