@@ -1,0 +1,17 @@
+name: Start GitHub Codespaces
+
+on:
+  schedule:
+    - cron: '45 18 * * *'  # Déclenche à 18h45 UTC (ajuste si nécessaire)
+
+jobs:
+  start-codespace:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start Codespace
+        run: |
+          gh codespace list --json name,state | jq -r '.[] | select(.state=="Shutdown") | .name' | while read codespace; do
+            gh codespace start --codespace "$codespace"
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
