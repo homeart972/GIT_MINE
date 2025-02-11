@@ -12,8 +12,13 @@ jobs:
     steps:
       - name: Start Codespace
         run: |
-          gh codespace list --json name,state | jq -r '.[] | select(.state=="Shutdown") | .name' | while read codespace; do
-            gh codespace start --codespace "$codespace"
-          done
+          codespace_name=$(gh codespace list --json name,state | jq -r '.[] | select(.state=="Shutdown") | .name')
+          if [ -n "$codespace_name" ]; then
+            echo "🔄 Redémarrage du Codespace : $codespace_name"
+            gh codespace start --repo homeart972/GIT_MINE --name "$codespace_name"
+          else
+            echo "✅ Aucun Codespace à redémarrer."
+          fi
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT2 }}  # Utilisation du GH_PAT existant OK
+          GH_TOKEN: ${{ secrets.GH_PAT2 }}  # Utilisation du token personnel
+
