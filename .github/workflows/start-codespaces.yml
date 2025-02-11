@@ -22,3 +22,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT2 }}  # Utilisation du token personnel
 
+      - name: Vérifier et démarrer cron
+        run: |
+          echo "🔍 Vérification du statut de cron..."
+          if pgrep cron > /dev/null; then
+            echo "✅ Le service cron est déjà en cours d'exécution."
+          else
+            echo "🚀 Démarrage du service cron..."
+            sudo service cron start
+          fi
+          
+          # Vérification du démarrage
+          sudo service cron status
+
