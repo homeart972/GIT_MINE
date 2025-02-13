@@ -22,18 +22,13 @@ jobs:
           pip install -r requirements.txt || echo "No requirements.txt found"
           pip install pandas  # Installation de pandas
       
-      - name: Run script
-        run: python boucleyoutube.py > output.log 2>&1
+      - name: Install xvfb
+        run: sudo apt-get install -y xvfb
       
-      - name: Ajouter un fichier log
-        run: |
-          echo "Rapport du script du $(date)" > report.log
-          echo "Tout s'est bien passé !" >> report.log
-
-      - name: Installer msmtp
-        run: sudo apt-get update && sudo apt-get install -y msmtp msmtp-mta
-
-      - name: Configurer msmtp
+      - name: Run script with xvfb
+        run: xvfb-run -a --server-args="-screen 0 1920x1080x24" bash -c "python boucleyoutube.py > output.log 2>&1"
+      
+      - name: Send email notification
         run: |
           echo "account default" > ~/.msmtprc
           echo "host smtp.gmail.com" >> ~/.msmtprc
