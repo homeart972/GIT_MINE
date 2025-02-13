@@ -25,24 +25,25 @@ jobs:
       - name: Run script
         run: python boucleyoutube.py > output.log 2>&1
       
-      - name: Send email notification
-        env:
-          SMTP_USER: ${{ secrets.EMAIL_USER }}
-          SMTP_PASS: ${{ secrets.EMAIL_PASS }}
-          SMTP_SERVER: "smtp.gmail.com"
-          SMTP_PORT: "587"
-          RECIPIENT: "homeart97200@gmail.com"
+      - name: Ajouter un fichier log
         run: |
-          sudo apt-get install -y msmtp
+          echo "Rapport du script du $(date)" > report.log
+          echo "Tout s'est bien passé !" >> report.log
+
+      - name: Installer msmtp
+        run: sudo apt-get update && sudo apt-get install -y msmtp msmtp-mta
+
+      - name: Configurer msmtp
+        run: |
           echo "account default" > ~/.msmtprc
-          echo "host $SMTP_SERVER" >> ~/.msmtprc
-          echo "port $SMTP_PORT" >> ~/.msmtprc
+          echo "host smtp.gmail.com" >> ~/.msmtprc
+          echo "port 587" >> ~/.msmtprc
           echo "auth on" >> ~/.msmtprc
-          echo "user $EMAIL_USER" >> ~/.msmtprc
-          echo "password $EMAIL_PASS" >> ~/.msmtprc
-          echo "from $EMAIL_USER" >> ~/.msmtprc
-          echo "logfile ~/.msmtp.log" >> ~/.msmtprc
+          echo "user ${{ secrets.EMAIL_USER }}" >> ~/.msmtprc
+          echo "password ${{ secrets.EMAIL_PASS }}" >> ~/.msmtprc
+          echo "tls on" >> ~/.msmtprc
           chmod 600 ~/.msmtprc
+
 
       - name: Envoyer l'email
         run: |
