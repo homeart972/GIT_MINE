@@ -43,4 +43,8 @@ jobs:
           echo "from $SMTP_USER" >> ~/.msmtprc
           echo "logfile ~/.msmtp.log" >> ~/.msmtprc
           chmod 600 ~/.msmtprc
-          echo -e "Subject: Rapport boucleyoutube\n\nVoici le rapport d'exécution." | msmtp -a default $RECIPIENT
+
+      - name: Envoyer l'email
+        run: |
+          echo -e "Subject: Rapport Quotidien\n\nLe script s'est exécuté avec succès." | msmtp --file=report.log ${{ secrets.EMAIL_TO }}
+          
