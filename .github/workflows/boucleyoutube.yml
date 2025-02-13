@@ -27,8 +27,8 @@ jobs:
       
       - name: Send email notification
         env:
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_USER: ${{ secrets.EMAIL_USER }}
+          SMTP_PASS: ${{ secrets.EMAIL_PASS }}
           SMTP_SERVER: "smtp.gmail.com"
           SMTP_PORT: "587"
           RECIPIENT: "homeart97200@gmail.com"
@@ -38,9 +38,9 @@ jobs:
           echo "host $SMTP_SERVER" >> ~/.msmtprc
           echo "port $SMTP_PORT" >> ~/.msmtprc
           echo "auth on" >> ~/.msmtprc
-          echo "user $SMTP_USER" >> ~/.msmtprc
-          echo "password $SMTP_PASS" >> ~/.msmtprc
-          echo "from $SMTP_USER" >> ~/.msmtprc
+          echo "user $EMAIL_USER" >> ~/.msmtprc
+          echo "password $EMAIL_PASS" >> ~/.msmtprc
+          echo "from $EMAIL_USER" >> ~/.msmtprc
           echo "logfile ~/.msmtp.log" >> ~/.msmtprc
           chmod 600 ~/.msmtprc
 
