@@ -1,0 +1,28 @@
+name: Run Bouclewix
+
+on:
+  workflow_dispatch:  # Permet de le lancer manuellement
+  schedule:
+    - cron: '0 */6 * * *'  # Exécute toutes les 6 heures
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          sudo apt update && sudo apt install -y xvfb
+          pip install pandas playwright
+          playwright install
+
+      - name: Run script with Xvfb
+        run: |
+          xvfb-run python3 bouclewix.py
