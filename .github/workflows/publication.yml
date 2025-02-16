@@ -1,0 +1,47 @@
+name: Publish Posts with Playwright
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Exécute tous les jours à 6h UTC
+  workflow_dispatch:  # Permet un lancement manuel
+
+jobs:
+  publish-posts:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        playwright install --with-deps  # Installe Playwright et ses navigateurs
+
+    - name: Install Xvfb
+      run: sudo apt-get install -y xvfb
+
+    - name: Start Xvfb
+      run: Xvfb :99 -screen 0 1920x1080x24 &  # Démarre un serveur X virtuel
+
+    - name: Load cached session (if available)
+      uses: actions/cache@v3
+      with:
+        path: user_data.json
+        key: playwright-user-session
+
+    - name: Run Playwright script with Xvfb
+      env:
+        DISPLAY: ":99"  # Définit la variable d'affichage pour Xvfb
+      run: python mon_script.py
+
+    - name: Save session data
+      uses: actions/cache@v3
+      with:
+        path: user_data.json
+        key: playwright-user-session
