@@ -3,7 +3,7 @@ name: Run Bouclewix
 on:
   workflow_dispatch:  # Permet de le lancer manuellement
   schedule:
-    - cron: '0 */6 * * *'  # Exécute toutes les 6 heures
+    - cron: '0 0 * * *'  # Exécute tous les jours à minuit UTC
 
 jobs:
   run_script:
